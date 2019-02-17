@@ -45,3 +45,5 @@ BurgerIngredient.propTypes = {
 };
 
 export default BurgerIngredient;
+
+//in Burger.js

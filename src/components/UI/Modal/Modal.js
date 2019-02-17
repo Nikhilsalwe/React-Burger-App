@@ -18,3 +18,6 @@ const modal = (props) => (
 );
 
 export default modal;
+
+
+//in BurgerBuilder.js

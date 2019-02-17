@@ -6,3 +6,6 @@ const backdrop = (props) => (
 );
 
 export default backdrop;
+
+
+//in Modal.js

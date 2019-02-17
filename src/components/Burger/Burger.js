@@ -26,6 +26,9 @@ const burger = (props) => {
 }
 
 export default burger;
+
+//in BurgerBuilder.js
+
 //explanation of below line of code
 // const transformedIngredients = Object.keys(props.ingredients) 
 // .map(igKey => {

@@ -37,6 +37,10 @@ class BurgerBuilder extends Component {
         })
     }
 
+    purchaseContinueHandler = () => {
+        alert('continue')
+    }
+
     updatePurchaseState (ingredients) {
         // const ingredients = {
         //     ...this.state.ingredients
@@ -99,7 +103,11 @@ class BurgerBuilder extends Component {
         return(
             <Aux>
                 <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
-                    <OrdarSummary ingredients={this.state.ingredients}/>
+                    <OrdarSummary 
+                        price={this.state.totalPrice}
+                        purchaseContinueHandler = {this.purchaseContinueHandler}
+                        purchaseCancled = {this.purchaseCancelHandler}
+                        ingredients={this.state.ingredients}/>
                 </Modal>
                 <Burger ingredients={this.state.ingredients} />
                 <BuildControls
@@ -115,3 +123,6 @@ class BurgerBuilder extends Component {
 }
 
 export default BurgerBuilder;
+
+
+//in App.js
