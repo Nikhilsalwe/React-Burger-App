@@ -38,9 +38,10 @@ class BurgerBuilder extends Component {
             .then(response => {
                 this.setState({
                     ingredients: response.data
-                })
+                });
+                this.updatePurchaseState(this.state.ingredients)
             }).catch(error => {
-                this.setState({error: true})
+                this.setState({ error: true })
             })
     }
 
@@ -57,31 +58,16 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-        this.setState({ loading: true })
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
-            customer: {
-                name: "Nikhil Salwe",
-                address: {
-                    street: 'Thane',
-                    zipCode: '11111',
-                    country: 'India'
-                },
-                email: "text@test.com"
-            },
-            deliveryMethod: 'fastest'
+        const queryParam = [];
+        for (let i in this.state.ingredients) {
+            queryParam.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
         }
-        axios.post('/orders.json', order)
-            .then(response => {
-                //puchasing false make model popup hide
-                this.setState({ loading: false, purchasing: false })
-                console.log(response)
-            })
-            .catch(error => {
-                this.setState({ loading: false, purchasing: false })
-                console.log(error)
-            })
+        queryParam.push("price=" + this.state.totalPrice)
+        const queryString = queryParam.join('&');
+        this.props.history.push({
+            pathname: '/checkout',
+            search: '?' + queryString
+        })
     }
 
     updatePurchaseState(ingredients) {
@@ -132,7 +118,7 @@ class BurgerBuilder extends Component {
         this.setState({
             totalPrice: newPrice, ingredients: updatedIngredients
         })
-        this.updatePurchaseState();
+        this.updatePurchaseState(updatedIngredients);
     }
 
     render() {
@@ -146,7 +132,7 @@ class BurgerBuilder extends Component {
         let OrderSummary = null;
 
 
-        
+
         let burger = this.state.error ? <p>Ingredient can not be loaded</p> : <Spinner />
 
         if (this.state.ingredients) {
@@ -164,10 +150,10 @@ class BurgerBuilder extends Component {
             );
 
             OrderSummary = <OrdarSummary
-            price={this.state.totalPrice}
-            purchaseContinueHandler={this.purchaseContinueHandler}
-            purchaseCancled={this.purchaseCancelHandler}
-            ingredients={this.state.ingredients} />
+                price={this.state.totalPrice}
+                purchaseContinueHandler={this.purchaseContinueHandler}
+                purchaseCancled={this.purchaseCancelHandler}
+                ingredients={this.state.ingredients} />
         }
         //if loading true show spinner
         if (this.state.loading) {
